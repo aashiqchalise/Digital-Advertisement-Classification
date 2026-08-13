@@ -1,0 +1,15 @@
+WHY EACH ALGORITHM WAS USED
+============================================================
+
+Algorithm: LinearSVC (Current)
+Reason   : High-dimensional linear classifier. Excellent for TF-IDF sparse vectors. Fast training and inference. Current production model.
+
+Algorithm: Logistic Regression
+Reason   : Probabilistic linear model. Naturally outputs calibrated probabilities. Highly interpretable and performs extremely well on text classification. Strong alternative to SVM when confidence scores matter.
+
+Algorithm: Multinomial Naive Bayes
+Reason   : Classic Bayesian text classifier. Assumes feature independence (naive). Extremely fast and surprisingly competitive for bag-of-words/TF-IDF features. Best for quick baselines and when training data is limited.
+
+Algorithm: Random Forest
+Reason   : Ensemble of decision trees using bagging. Handles non-linear patterns and feature interactions. Less optimal for high-dimensional sparse text but included to demonstrate ensemble methods on TF-IDF features.
+

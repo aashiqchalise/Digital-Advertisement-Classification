@@ -1,0 +1,12 @@
+.vscode/
+.venv/
+__pycache__/
+*.pyc
+.env
+
+dumpdata/
+
+~$*
+.ipynb_checkpoints/
+
+PROPOSAL.md
