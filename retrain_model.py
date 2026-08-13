@@ -59,17 +59,22 @@ IT_TEMPLATES = [
     "Remote {role} position available. Must have hands-on experience with {tech1} and {tech2}. You will {duty1} and work with the {team} team.",
     "{role} role: {exp} years of experience with {tech1} required. Responsibilities include {duty1}, {duty2}. Knowledge of {tech2} and {tech3} is a strong plus.",
     "We are expanding our {team} team and need a {role}. Daily tasks: {duty1}, {duty2}, {duty3}. Stack: {tech1}, {tech2}.",
+    "{role} needed for a growing startup. Entry-level applicants welcome. Training provided.",
+    "Junior {role} position available. Ideal for someone looking to start a career in technology.",
+    "Hiring a {role} for our technology team. Opportunity to learn, grow and work on real-world projects.",
 ]
 IT_ROLES = [
     "Software Engineer", "Full Stack Developer", "Backend Developer", "Frontend Developer",
     "DevOps Engineer", "Cloud Engineer", "Network Administrator", "IT Support Specialist",
     "Systems Administrator", "Data Engineer", "Cybersecurity Analyst", "Database Administrator",
     "Site Reliability Engineer", "Machine Learning Engineer", "QA Engineer",
-    "IT Help Desk Technician", "Infrastructure Engineer", "Web Developer",
+    "IT Help Desk Technician", "Infrastructure Engineer", "Web Developer","Mobile App Developer",
+    "iOS Developer","Android Developer","Python Developer","Data Analyst","Cybersecurity Specialist",
 ]
 IT_TEAMS = ["engineering", "infrastructure", "cloud", "security", "platform", "data", "DevOps"]
 IT_TECH1 = ["Python", "Java", "AWS", "Azure", "Linux", "Docker", "Kubernetes", "SQL", "React",
-            "Node.js", "C#", ".NET", "Terraform", "Ansible", "networking protocols", "firewalls"]
+            "Node.js", "C#", ".NET", "Terraform", "Ansible", "networking protocols", "firewalls",
+            "Android", "iOS", "Swift", "Kotlin", "Flutter", "React Native"]
 IT_TECH2 = ["CI/CD pipelines", "REST APIs", "Git", "PostgreSQL", "MongoDB", "Windows Server",
             "Active Directory", "VMware", "TCP/IP", "bash scripting", "cloud services"]
 IT_TECH3 = ["Agile methodology", "microservices", "containerization", "load balancers",
@@ -195,6 +200,11 @@ APARTMENT_TEMPLATES = [
     "Nice {beds}BR apartment in {area}. ${rent}. Features: {feat1}, {feat2}. {lease} lease, deposit required.",
     "Furnished {beds}-bedroom apartment for rent. {area} area. ${rent}/month, utilities included. {feat1}.",
     "{beds}BD/{baths}BA unit in {area} complex. ${rent}/mo. Amenities: {feat1}, {feat2}. Renters insurance required.",
+    "{beds}-bedroom apartment available in {area}. {feat1} and {feat2}. Available {avail}.",
+    "Modern apartment available in {area}. Features include {feat1} and {feat2}. Ideal for tenants seeking a comfortable home.",
+    "Apartment available for occupancy in {area}. Includes {feat1} and {feat2}. {lease} lease options available.",
+    "Ground-floor apartment with {feat1} and {feat2}. Suitable for families and available {avail}.",
+    "Loft-style apartment available in {area} with {feat1} and {feat2}.",
 ]
 APT_BEDS = ["Studio", "1", "2", "3"]
 APT_BATHS = ["1", "2"]
@@ -362,9 +372,14 @@ if __name__ == "__main__":
         ("IT",      "We are seeking a Software Engineer with experience troubleshooting computer systems and networks."),
         ("IT",      "Senior Python developer needed for cloud infrastructure. AWS, Docker, Kubernetes required."),
         ("Retail",  "Hiring cashier for grocery store. Part time, no experience needed."),
-        ("Sell",    "3-bedroom house for sale in Plano. Open house this Sunday. Asking 320000."),
+        ("Sell", "3-bedroom house for sale in Plano with 2 bathrooms, garage and large backyard. Asking price 320000. Open house this Sunday."),
         ("Rent",    "2 bedroom apartment for rent in Uptown Dallas. 1200 per month utilities included."),
         ("Bank",    "Loan officer needed at regional bank. Mortgage underwriting experience preferred."),
+        ("IT", "Frontend Developer needed with React.js and Tailwind CSS experience."),
+        ("IT", "Data Analyst needed with Python, SQL and Power BI experience to analyse datasets, build dashboards and generate technical reports."),
+        ("IT", "Cybersecurity Specialist required to monitor network threats and security incidents."),
+        ("IT", "Mobile App Developer needed for iOS and Android application development."),
+        ("IT", "Junior Python Developer needed for a startup using Python and REST APIs."),
     ]
     passed = 0
     for expected, text in checks:

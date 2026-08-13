@@ -238,8 +238,12 @@ def batch_page(model):
                     results = df[col_name].apply(predict_row)
                     df['Predicted_Category'] = results.apply(lambda x: x[0])
                     df['Confidence'] = results.apply(lambda x: x[1])
-                    df.loc[df['Confidence'] < CONFIDENCE_THRESHOLD, 'Predicted_Category'] = "Uncertain/Random"
-
+                    #df.loc[df['Confidence'] < CONFIDENCE_THRESHOLD, 'Predicted_Category'] = "Uncertain/Random"
+                    df["Confidence_Status"] = np.where(
+                        df["Confidence"] < CONFIDENCE_THRESHOLD,
+                        "Low Confidence",
+                        "High Confidence"
+                    )
                 st.success("Processing Complete!")
 
                 st.markdown("### ✨ Results Preview")
