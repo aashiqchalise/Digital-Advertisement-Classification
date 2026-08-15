@@ -55,7 +55,7 @@ Jobs – Retail       552
 Rent – Apartment    550
 Jobs – IT           549
 Banking             547
-
+```
 ---
 
 ## Algorithm Comparison
@@ -168,7 +168,7 @@ Digital-Advertisement-Classification/
         └── adv_model_backup.sav   # Previous model backup
 
 ---
-
+```
 ## Setup & Installation
 
 **Requirements:** Python 3.9+
