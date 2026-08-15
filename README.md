@@ -1,138 +1,171 @@
 # AdClassifier Pro 🚀
 
-> **Intelligent Digital Advertisement Classification System**  
-> Automatically categorises job ads, house listings, apartment rentals, retail postings, and banking ads using multiple machine learning algorithms.
+> **Digital Advertisement Classification System Using Machine Learning**  
+> AdClassifier Pro is a machine-learning-based text classification system that automatically classifies digital advertisements into predefined categories using Natural Language Processing (NLP) and machine learning.
+
+The project was developed as part of an MSc Computer Science dissertation.
 
 ---
 
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Categories](#categories)
-3. [Dataset](#dataset)
-4. [Algorithm Comparison](#algorithm-comparison)
-5. [Why Each Algorithm?](#why-each-algorithm)
-6. [Project Structure](#project-structure)
-7. [Setup & Installation](#setup--installation)
-8. [Running the App](#running-the-app)
-9. [Retraining the Model](#retraining-the-model)
-10. [Results Summary](#results-summary)
 
----
 
 ## Project Overview
 
-AdClassifier Pro is a full-stack NLP classification application that:
+The system analyses the textual content of a digital advertisement and predicts its most appropriate category.
 
-- **Classifies** digital advertisements into 5 categories in real-time
-- **Compares** 6 different ML algorithms with metrics, charts, and confusion matrices
-- **Provides** a Streamlit web dashboard for single-input classification, batch CSV/Excel processing, and algorithm comparison
-- **Handles class imbalance** via synthetic data augmentation and `class_weight="balanced"`
+The project includes:
 
-The best-performing model (LinearSVC) is automatically saved and used in production.
+- Digital advertisement text classification
+- TF-IDF feature extraction
+- Comparison of four machine learning algorithms
+- Automatic selection of the best-performing model
+- Single advertisement classification
+- Batch CSV and Excel classification
+- Prediction confidence information
+- Model performance visualisations
+- Interactive Streamlit web interface
+
+The final selected classifier is **LinearSVC**, which achieved approximately **97.33% test accuracy**.
 
 ---
 
-## Categories
+## Advertisement Categories
+
+The system classifies advertisements into five categories:
 
 | Category | Description |
 |---|---|
-| `Jobs – IT` | Software engineering, DevOps, cloud, sysadmin, cybersecurity roles |
-| `Jobs – Retail` | Cashier, sales associate, store manager, stock associate roles |
-| `Banking` | Loan officer, financial advisor, credit analyst, accountant roles |
-| `Sell – House` | Property listings with bedrooms, bathrooms, price, features |
-| `Rent – Apartment` | Apartment rental ads with rent price, amenities, availability |
+| `Banking` | Banking, loans, credit and financial-service advertisements |
+| `Jobs – IT` | Software development, cybersecurity, cloud, DevOps and other IT jobs |
+| `Jobs – Retail` | Cashier, sales assistant, store manager and other retail jobs |
+| `Rent – Apartment` | Apartments and residential properties available for rent |
+| `Sell – House` | Houses and residential properties advertised for sale |
 
 ---
 
 ## Dataset
 
-| Source | Samples |
-|---|---|
-| Original (`ConcatenatedDigitalAdData.xlsx`) | ~1,541 |
-| Synthetic (generated via `retrain_model.py`) | ~1,270 |
-| **Total after merging** | **2,805** |
+The final dataset contains **2,805 advertisement records** after data preparation and synthetic data augmentation.
 
-**Class distribution after balancing:**
+### Final Class Distribution
 
-```
+```text
 Sell – House        607
 Jobs – Retail       552
 Rent – Apartment    550
 Jobs – IT           549
 Banking             547
-```
-
-Train / Test split: **80% / 20%** (stratified)
 
 ---
 
 ## Algorithm Comparison
 
-Six algorithms were trained and evaluated on identical data splits. Results are ranked by **Test Accuracy**:
+Four algorithms were trained and evaluated on identical data splits. Results are ranked by **Test Accuracy**:
 
 | Rank | Algorithm | Test Accuracy | Macro F1 | Weighted F1 | CV Mean (5-fold) | CV Std | Train Time |
 |---|---|---|---|---|---|---|---|
-| 🥇 1 | **LinearSVC** *(Production)* | **97.33%** | **97.28%** | **97.32%** | **97.54%** | ±0.35% | 0.8s |
-| 🥈 2 | Logistic Regression | 96.97% | 96.91% | 96.97% | 97.54% | ±0.58% | 1.5s |
-| 🥈 2 | Random Forest | 96.97% | 96.94% | 96.98% | 96.47% | ±0.67% | 1.4s |
-| 4 | Multinomial Naive Bayes | 96.79% | 96.73% | 96.79% | 97.08% | ±0.49% | **0.3s** |
-| 5 | Gradient Boosting | 95.37% | 95.35% | 95.40% | 96.04% | ±0.73% | 65.9s |
-| 6 | K-Nearest Neighbors | 94.65% | 94.54% | 94.63% | 95.22% | ±0.86% | 0.5s |
+| 🥇 1 | **LinearSVC** *(Final Model)* | **97.33%** | **97.28%** | **97.32%** | **97.61%** | ±0.47% | 1.59s |
+| 🥈 2 | Logistic Regression | 96.97% | 96.92% | 96.97% | 97.58% | ±0.57% | 1.31s |
+| 🥈 2 | Random Forest | 96.97% | 96.94% | 96.98% | 96.26% | ±0.77% | 1.60s |
+| 4 | Multinomial Naive Bayes | 96.61% | 96.55% | 96.62% | 96.97% | ±0.61% | 0.65s |
 
-> All algorithms use TF-IDF vectorization (bigrams, 20k max features) as input features.
+> All algorithms use TF-IDF-based textual features for advertisement classification.
+
 
 ---
 
 ## Why Each Algorithm?
 
-### ⚔️ LinearSVC *(Current Production Model)*
-**Why chosen:** Linear SVM is the gold standard for high-dimensional sparse text classification. TF-IDF produces very large sparse feature vectors where linear boundaries separate classes cleanly. `CalibratedClassifierCV` wraps it to produce probability estimates. It achieves the best accuracy (97.33%) with the second-fastest training time (0.8s), making it ideal for production.
+### ⚔️ LinearSVC *(Final Selected Model)*
+
+**Why chosen:** LinearSVC is well suited to high-dimensional sparse text representations such as TF-IDF. It achieved the strongest overall performance in the final experiment.
+
+`CalibratedClassifierCV` is used with LinearSVC so that confidence information can also be provided for predictions.
+
+Final performance:
+
+- Test Accuracy: **97.33%**
+- Macro F1-score: **97.28%**
+- Weighted F1-score: **97.32%**
+- 5-Fold CV Mean: **97.61%**
+
+---
 
 ### 📈 Logistic Regression
-**Why included:** A natural probabilistic alternative to SVM. Outputs well-calibrated class probabilities without wrapping. Tied for 2nd place at 96.97% with similar CV performance to LinearSVC (97.54%). Highly interpretable — coefficients directly indicate which words drive each classification.
+
+**Why included:** Logistic Regression provides a strong linear baseline for text classification and works effectively with TF-IDF features.
+
+It achieved:
+
+- Test Accuracy: **96.97%**
+- Macro F1-score: **96.92%**
+- 5-Fold CV Mean: **97.58%**
+
+Its performance was very close to LinearSVC.
+
+---
+
 
 ### 🧮 Multinomial Naive Bayes
-**Why included:** The classic NLP baseline algorithm. Assumes conditional independence of features given the class. Extremely fast (0.3s training) and achieved 96.79% — impressively close to the top models. Best choice when training resources are severely limited or real-time retraining is needed.
+
+**Why included:** Multinomial Naive Bayes is a traditional probabilistic algorithm commonly used for text classification.
+
+It is computationally efficient and provides a useful baseline when working with TF-IDF-based textual features.
+
+It achieved:
+
+- Test Accuracy: **96.61%**
+- Macro F1-score: **96.55%**
+- 5-Fold CV Mean: **96.97%**
+
+---
+
 
 ### 🌲 Random Forest
-**Why included:** A bagging ensemble of 200 decision trees. Handles non-linear feature interactions and is naturally resistant to overfitting. Tied for 2nd place (96.97%) but has a lower CV score (96.47%), suggesting it generalizes slightly less consistently than linear models on text data.
 
-### 🚀 Gradient Boosting
-**Why included:** A powerful sequential boosting ensemble that iteratively corrects prior model errors. Strong on structured tabular data. Demonstrated here to show the accuracy–speed trade-off: only 95.37% accuracy while taking 65.9 seconds to train — far slower than linear models on text.
+**Why included:** Random Forest is an ensemble learning algorithm that combines predictions from multiple decision trees.
 
-### 📍 K-Nearest Neighbors
-**Why included:** A non-parametric, instance-based learner. Classifies new samples by voting from the k=7 nearest training examples using cosine similarity. Included as a simple distance-based baseline. Performs weakest (94.65%) due to the curse of dimensionality in high-dimensional TF-IDF space.
+It was included to compare an ensemble-based method against the linear and probabilistic classifiers.
+
+It achieved:
+
+- Test Accuracy: **96.97%**
+- Macro F1-score: **96.94%**
+- 5-Fold CV Mean: **96.26%**
+
+Although its test accuracy was high, its cross-validation performance was lower than LinearSVC and Logistic Regression.
 
 ---
 
 ## Project Structure
 
-```
+```text
 Digital-Advertisement-Classification/
 │
 ├── streamlit_app.py          # Main Streamlit web application
 ├── retrain_model.py          # Generates synthetic data & retrains LinearSVC
-├── compare_algorithms.py     # Trains & compares all 6 algorithms
+├── compare_algorithms.py     # Trains & compares all 4 algorithms
 ├── requirements.txt          # Python dependencies
 │
 ├── data/
 │   ├── ConcatenatedDigitalAdData.xlsx  # Original labelled dataset
 │   ├── synthetic_data.csv              # Augmented synthetic training samples
-│   └── comparison_report/             # Auto-generated by compare_algorithms.py
-│       ├── algorithm_comparison.csv    # Numerical results table
-│       ├── algorithm_reasons.txt       # Text explanations per algorithm
-│       ├── accuracy_comparison.png     # Bar chart: accuracy vs CV
-│       ├── f1_comparison.png           # Bar chart: Macro F1 vs Weighted F1
-│       ├── training_time.png           # Horizontal bar: training speed
-│       ├── radar_comparison.png        # Radar chart: multi-metric overview
-│       ├── cm_LinearSVC_Current.png    # Confusion matrix per algorithm
-│       └── cm_*.png                   # (one per algorithm)
+│   └── comparison_report/              # Auto-generated comparison results
+│       ├── algorithm_comparison.csv
+│       ├── algorithm_reasons.txt
+│       ├── accuracy_comparison.png
+│       ├── f1_comparison.png
+│       ├── training_time.png
+│       ├── radar_comparison.png
+│       ├── cm_LinearSVC_Current.png
+│       └── cm_*.png
 │
 └── notebook/
+    ├── JobModelFinal.ipynb        # Final model development notebook
+    │
     └── model/
-        ├── adv_model.sav         # Active production model (best algorithm)
-        └── adv_model_backup.sav  # Previous model backup
-```
+        ├── adv_model.sav          # Final selected model
+        └── adv_model_backup.sav   # Previous model backup
 
 ---
 
@@ -142,7 +175,7 @@ Digital-Advertisement-Classification/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/kuxall/Digital-Advertisement-Classification.git
+git clone https://github.com/aashiqchalise/Digital-Advertisement-Classification.git
 cd Digital-Advertisement-Classification
 
 # 2. Create and activate virtual environment
@@ -181,13 +214,13 @@ The app opens at `http://localhost:8501` with 4 pages:
 | **Dashboard** | Data distribution, total samples, category counts |
 | **Classifier** | Real-time single-ad classification with confidence scores |
 | **Batch Processor** | Upload CSV/Excel for bulk classification and download |
-| **Model Comparison** | Interactive charts and rankings for all 6 algorithms |
+| **Model Comparison** | Interactive charts and rankings for all 4 algorithms |
 
 ---
 
 ## Retraining the Model
 
-### Retrain with synthetic data augmentation (LinearSVC only):
+### Retrain with synthetic data augmentation :
 ```bash
 python retrain_model.py
 ```
@@ -198,7 +231,7 @@ python compare_algorithms.py
 ```
 
 This will:
-1. Train all 6 algorithms on the same data split
+1. Train all 4 algorithms on the same data split
 2. Print a full comparison table to the console
 3. Save charts and CSVs to `data/comparison_report/`
 4. Automatically save the **best model** to `notebook/model/adv_model.sav`
@@ -210,16 +243,22 @@ After running, restart the Streamlit app — it will load the new best model aut
 
 ## Results Summary
 
-The system achieves production-grade accuracy with a highly balanced dataset:
+The final system achieved strong classification performance across the four evaluated machine learning algorithms:
 
-- **Best Model:** LinearSVC + TF-IDF (bigrams)
+- **Best Model:** LinearSVC + TF-IDF
 - **Test Accuracy:** 97.33%
-- **5-Fold CV Accuracy:** 97.54% (±0.35%)
-- **Training Samples:** 2,805 (real + synthetic)
+- **Macro Precision:** 97.35%
+- **Macro Recall:** 97.27%
+- **Macro F1-score:** 97.28%
+- **Weighted F1-score:** 97.32%
+- **5-Fold CV Accuracy:** 97.61% (±0.47%)
+- **Dataset Size:** 2,805 advertisements
+- **Training Samples:** 2,244
+- **Testing Samples:** 561
 - **Categories:** 5
-- **Training Time:** < 1 second
+- **Algorithms Compared:** 4
 
-> The linear models (LinearSVC, Logistic Regression) consistently outperform ensemble and distance-based methods on TF-IDF text features, confirming well-established NLP research findings. Naive Bayes is the recommended lightweight alternative if inference speed is critical.
+> The results show that LinearSVC achieved the strongest overall performance among the four evaluated classifiers, with Logistic Regression producing very similar results. Multinomial Naive Bayes also achieved strong performance with relatively low computational requirements, while Random Forest produced a lower mean cross-validation score than the linear classifiers.
 
 ---
 
