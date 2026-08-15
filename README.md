@@ -166,9 +166,9 @@ Digital-Advertisement-Classification/
     └── model/
         ├── adv_model.sav          # Final selected model
         └── adv_model_backup.sav   # Previous model backup
-
----
 ```
+---
+
 ## Setup & Installation
 
 **Requirements:** Python 3.9+
